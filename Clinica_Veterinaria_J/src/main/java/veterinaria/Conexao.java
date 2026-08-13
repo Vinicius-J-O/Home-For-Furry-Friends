@@ -1,0 +1,21 @@
+package veterinaria;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class Conexao {
+
+    private static final String URL = "jdbc:mysql://localhost:3306/veterinaria";
+    private static final String USUARIO = "root";
+    private static final String SENHA = "";
+
+    public static Connection abrir() {
+        try {
+            return DriverManager.getConnection(URL, USUARIO, SENHA);
+        } catch (SQLException e) {
+            // Relança como unchecked para não acoplar as demais camadas ao JDBC
+            throw new RuntimeException("Erro ao conectar no banco de dados.", e);
+        }
+    }
+}
