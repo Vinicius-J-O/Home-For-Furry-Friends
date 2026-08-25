@@ -1,4 +1,4 @@
-package model;
+package veterinaria.model;
 
 public class Tutor {
     private int id;
@@ -41,8 +41,8 @@ public class Tutor {
     public void setTelefone(String telefone) {this.telefone = telefone;}
 
     public String getEmail() {return email;}
-    public String setEmail(String email) {this.email = email;}
+    public void setEmail(String email) {this.email = email;}
 
     public String getEndereco() {return endereco;}
-    public String setEndereco(String endereco) {this.endereco = endereco;}
+    public void setEndereco(String endereco) {this.endereco = endereco;}
 }

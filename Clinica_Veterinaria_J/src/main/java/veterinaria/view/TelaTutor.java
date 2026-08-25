@@ -1,7 +1,7 @@
-package view;
+package veterinaria.view;
 
-import dao.TutorDAO;
-import model.Tutor;
+import veterinaria.dao.TutorDAO;
+import veterinaria.model.Tutor;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

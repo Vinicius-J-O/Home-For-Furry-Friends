@@ -1,7 +1,7 @@
-package dao;
+package veterinaria.dao;
 
-import Conexao;
-import model.Tutor;
+import veterinaria.Conexao;
+import veterinaria.model.Tutor;
 
 import java.sql.*;
 import java.util.ArrayList;
