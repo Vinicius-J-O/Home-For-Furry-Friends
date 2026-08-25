@@ -14,7 +14,7 @@ public class Conexao {
         try {
             return DriverManager.getConnection(URL, USUARIO, SENHA);
         } catch (SQLException e) {
-            // Relança como unchecked para não acoplar as demais camadas ao JDBC
+
             throw new RuntimeException("Erro ao conectar no banco de dados.", e);
         }
     }
