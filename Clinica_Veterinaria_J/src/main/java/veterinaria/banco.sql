@@ -41,11 +41,11 @@ CREATE TABLE IF NOT EXISTS atendimento (
     data_atendimento DATE NOT NULL,
     hora_atendimento TIME NOT NULL,
     descricao TEXT,
-    diagnostigo TEXT,
+    diagnostico TEXT,
     valor DECIMAL NOT NULL DEFAULT 0.0,
     FOREIGN KEY (pet_id) REFERENCES pet(id),
     FOREIGN KEY (veterinario_id) REFERENCES veterinario(id)
-)
+);
 
 -- 5. Tabela PROCEDIMENTO
 CREATE TABLE IF NOT EXISTS procedimento (
