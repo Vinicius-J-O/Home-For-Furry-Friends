@@ -26,8 +26,8 @@ A **Home for Furry Friends** é uma clínica veterinária destinada ao atendimen
 
 ### Benefícios Esperados
 - **Centralização:** Todos os dados da clínica em um único ambiente.
-- **Histórico Acessível:** Agilidade na consulta ao histórico médico, exames e vacinações.
-- **Redução de Erros:** Validações de entrada que reduzem inconsistências de cadastro.
+- **Consulta Rápida:** Listagens por módulo (tutores, pets, vacinas por pet, etc.) sem precisar de fichas físicas.
+- **Redução de Erros:** Cadastros estruturados em vez de anotações manuais.
 - **Eficiência:** Eliminação gradual do uso de papéis e fichas físicas.
 
 ---
@@ -36,24 +36,24 @@ A **Home for Furry Friends** é uma clínica veterinária destinada ao atendimen
 
 | Cenário Anterior (Manual) | Solução com o Sistema Veterinaria |
 | :--- | :--- |
-| Perda ou dificuldade de localização de prontuários. | Histórico médico digital unificado por pet. |
+| Perda ou dificuldade de localização de prontuários. | Cadastro digital estruturado por tutor, pet e atendimento. |
 | Dificuldade para acompanhar o histórico de vacinação. | Controle de doses aplicadas e agendamento de próximas doses. |
 | Perda de vínculo entre tutor e pet. | Relacionamento $1:N$ bem estruturado entre Tutor e Pets. |
-| Falta de controle financeiro dos atendimentos. | Registro detalhado de valores de consultas, exames e procedimentos. |
+| Falta de controle financeiro dos atendimentos. | Registro do valor de cada consulta no momento do atendimento. |
 | Falta de identificação do veterinário responsável. | Vínculo explícito do CRMV/Veterinário em cada atendimento. |
 
 ---
 
 ## ✨ Funcionalidades Principais
 
-- **Gerenciamento de Tutores (CRUD):** Cadastro completo com validações de CPF e contatos.
-- **Gerenciamento de Pets (CRUD):** Registro de animais vinculados diretamente a um tutor responsável.
-- **Gerenciamento de Veterinários (CRUD):** Controle de profissionais habilitados e seus CRMVs.
-- **Registro de Atendimentos:**
-  - Diagnósticos e observações clínicas.
-  - Vínculo de múltiplos procedimentos executados (com quantidades e valores).
-  - Vínculo de múltiplos exames (com resultados e valores).
-  - Cálculo e manutenção do valor final consolidado do atendimento.
+- **Gerenciamento de Tutores (CRUD):** Cadastro completo (criar, listar, atualizar, excluir).
+- **Gerenciamento de Pets (CRUD):** Registro de animais vinculados diretamente a um tutor responsável (criar, listar, atualizar, excluir).
+- **Gerenciamento de Veterinários (CRUD):** Controle de profissionais habilitados e seus CRMVs (criar, listar, atualizar, excluir).
+- **Registro de Atendimentos** *(somente criação e listagem — sem edição/exclusão ainda)*:
+  - Seleção de Pet e Veterinário responsável.
+  - Descrição da consulta e diagnóstico em texto livre.
+  - Valor total informado manualmente pelo usuário.
+- **Cadastro de Procedimentos e Exames:** catálogos próprios (nome, descrição, valor), cadastrados de forma independente — ainda não vinculados a um atendimento específico.
 - **Controle de Vacinação:** Registro de vacinas aplicadas e data prevista para próxima dose.
 
 ---
@@ -114,8 +114,8 @@ O sistema adota uma arquitetura em camadas simples, promovendo a separação ent
 - **Pet → Atendimento:** $1 : 0..*$ *(Um pet pode passar por múltiplos atendimentos)*
 - **Veterinário → Atendimento:** $1 : 0..*$ *(Um veterinário pode realizar múltiplos atendimentos)*
 - **Pet → Vacina:** $1 : 0..*$ *(Um pet pode ter vários registros de vacina)*
-- **Atendimento ← Procedimento:** $N : N$ *(Implementado via tabela associativa `ATENDIMENTO_PROCEDIMENTO`)*
-- **Atendimento ← Exame:** $N : N$ *(Implementado via tabela associativa `ATENDIMENTO_EXAME`)*
+- **Atendimento ← Procedimento:** $N : N$ *(tabela associativa `ATENDIMENTO_PROCEDIMENTO` já existe no banco, mas ainda não é populada pela aplicação)*
+- **Atendimento ← Exame:** $N : N$ *(tabela associativa `ATENDIMENTO_EXAME` já existe no banco, mas ainda não é populada pela aplicação)*
 
 ---
 
@@ -126,17 +126,20 @@ O sistema adota uma arquitetura em camadas simples, promovendo a separação ent
 - **RN02:** Um tutor pode ter vários pets; cada pet pertence obrigatoriamente a um tutor.
 - **RN03:** Cada pet possui um identificador único.
 - **RN04/RN05:** Cada atendimento está associado a exatamente um pet e um veterinário responsável.
-- **RN07/RN08:** Um atendimento pode conter múltiplos exames e procedimentos.
-- **RN09/RN10:** As tabelas associativas guardam o histórico de valores e resultados praticados no momento do atendimento.
-- **RN11:** O atendimento deve consolidar o valor total final.
+- **RN06:** Data e hora do atendimento são preenchidas automaticamente pelo sistema no momento do registro.
+- **RN11:** O valor do atendimento é informado manualmente pelo usuário no momento do registro.
+
+> **Planejado, ainda não implementado:** vínculo de múltiplos procedimentos e exames a um mesmo atendimento (com quantidades, resultados e valores) e cálculo automático do valor consolidado a partir desses vínculos. As tabelas associativas (`ATENDIMENTO_PROCEDIMENTO` e `ATENDIMENTO_EXAME`) já existem no banco, aguardando a implementação da funcionalidade na aplicação.
 
 ### Validações Obrigatórias
-- **Tutor:** Nome e CPF obrigatórios. Validação de formato de e-mail quando informado.
-- **Pet:** Nome, espécie e tutor obrigatórios; `peso` não pode ser negativo.
+- **Tutor:** Nome e CPF obrigatórios.
+- **Pet:** Nome e espécie obrigatórios; pet sempre vinculado a um tutor.
 - **Veterinário:** Nome e CRMV obrigatórios.
-- **Atendimento:** Pet, veterinário, data e hora obrigatórios; `valor` não pode ser negativo.
-- **Procedimentos / Exames:** Nome obrigatório; `valor` não pode ser negativo.
+- **Atendimento:** Pet, Veterinário e Valor obrigatórios.
+- **Procedimentos / Exames:** Nome obrigatório.
 - **Vacina:** Pet, nome da vacina e data de aplicação obrigatórios.
+
+> **Planejado, ainda não implementado:** validação de formato de e-mail do tutor, e bloqueio de valores negativos em peso, valor do atendimento, procedimentos e exames — atualmente qualquer valor numérico é aceito.
 
 ---
 
@@ -146,19 +149,18 @@ O sistema adota uma arquitetura em camadas simples, promovendo a separação ent
 [01] Cadastro do Tutor → [02] Cadastro do Pet → [03] Vínculo Pet → Tutor                                                                    
                                                               ↓
 [06] Finalização ← [05] Registro de Atendimento ← [04] Seleção do Veterinário
-       │                  ├── Diagnóstico
-       ↓                  ├── Procedimentos
-[07] Histórico do Pet     ├── Exames
-                          └── Valores
+       │                  ├── Descrição
+       ↓                  ├── Diagnóstico
+[07] Histórico do Pet     └── Valor (informado manualmente)
 ```
 
 1. **Cadastro do Tutor:** Inclusão/consulta dos dados do responsável.
 2. **Cadastro do Pet:** Registro dos dados do animal.
 3. **Vínculo:** Associação do pet ao seu tutor.
 4. **Seleção do Veterinário:** Escolha do profissional responsável pela consulta.
-5. **Atendimento:** Inclusão de sintomas, diagnóstico, exames realizados, procedimentos e cálculo de custos.
+5. **Atendimento:** Inclusão de descrição, diagnóstico e valor da consulta.
 6. **Finalização:** Confirmação e gravação do atendimento.
-7. **Consulta ao Histórico:** Acesso ao histórico completo de saúde do pet.
+7. **Consulta ao Histórico:** Cada módulo (atendimentos, vacinas) mantém sua própria listagem consultável; ainda não há uma tela consolidada de histórico por pet.
 
 ---
 
@@ -185,16 +187,40 @@ Para a construção das telas Java Swing, adota-se a seguinte paleta de cores:
 ## 🚫 Escopo e Limitações
 
 ### Escopo Inicial
-- CRUDs completos para Tutores, Pets, Veterinários e Atendimentos.
+- CRUDs completos para Tutores, Pets e Veterinários.
+- Registro (criação e listagem) de Atendimentos, com edição/exclusão planejadas para uma próxima etapa.
 - Interface desktop em Java Swing com conexão via JDBC ao MySQL.
 
 ### Fora do Escopo Inicial (Versões Futuras)
+- Vínculo de múltiplos procedimentos e exames a um atendimento, com cálculo automático do valor consolidado.
+- Edição e exclusão de Atendimentos, Procedimentos, Exames e Vacinas já registrados.
+- Validações de formato (e-mail) e de valores não-negativos (peso, valores monetários).
 - Aplicativo Mobile e Sistema Web.
 - Telemedicina e agendamento/pagamento online.
 - Controle de estoque de medicamentos.
 - Folha de pagamento e gestão RH.
 - Envio de SMS / Notificações.
 - Diagnóstico automatizado por Inteligência Artificial.
+
+---
+
+## ▶️ Como Executar o Projeto
+
+### Pré-requisitos
+- JDK 21 instalado.
+- MySQL Server rodando localmente.
+- VS Code com a extensão **Extension Pack for Java** (ou uma IDE como IntelliJ/Eclipse, que já vêm com suporte a Maven).
+
+### Passo a passo
+1. **Banco de dados:** execute o script `src/main/java/veterinaria/banco.sql` no seu MySQL para criar o banco `veterinaria` e todas as tabelas.
+2. **Credenciais:** confira usuário/senha em `Conexao.java` (padrão: `root` sem senha) e ajuste se necessário.
+3. **Abrir o projeto:** abra a pasta `Clinica_Veterinaria_J` (a que contém o `pom.xml`) no VS Code.
+4. **Executar:** abra `src/main/java/veterinaria/Main.java` e clique no botão **Run** que aparece acima do método `main`. A extensão Java compila e baixa as dependências (driver do MySQL) automaticamente na primeira vez.
+
+> Se tiver o Maven instalado e no PATH, também é possível compilar e rodar via terminal, dentro de `Clinica_Veterinaria_J`:
+> ```
+> mvn compile exec:java -D"exec.mainClass=veterinaria.Main"
+> ```
 
 ---
 
