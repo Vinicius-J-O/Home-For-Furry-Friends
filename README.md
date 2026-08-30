@@ -144,7 +144,7 @@ O sistema adota uma arquitetura em camadas simples, promovendo a separação ent
 
 ```
 [01] Cadastro do Tutor → [02] Cadastro do Pet → [03] Vínculo Pet → Tutor                                                                    
-                                                                     ↓
+                                                              ↓
 [06] Finalização ← [05] Registro de Atendimento ← [04] Seleção do Veterinário
        │                  ├── Diagnóstico
        ↓                  ├── Procedimentos
