@@ -24,7 +24,6 @@
 
     <build>
         <plugins>
-            <!-- Permite rodar com: mvn compile exec:java -Dexec.mainClass="veterinaria.Main" -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
