@@ -61,14 +61,19 @@ public class TelaPrincipal extends JFrame {
 
         add(painelAtendimento, BorderLayout.SOUTH);
 
-        // Ações dos Botões
-        btnTutores.addActionListener(e -> new TelaTutor().setVisible(true));
-        btnPets.addActionListener(e -> new TelaPet().setVisible(true));
-        btnVets.addActionListener(e -> new TelaVeterinario().setVisible(true));
-        btnVacinas.addActionListener(e -> new TelaVacina().setVisible(true));
-        btnExames.addActionListener(e -> new TelaExame().setVisible(true));
-        btnProcedimentos.addActionListener(e -> new TelaProcedimento().setVisible(true));
-        btnAtendimentos.addActionListener(e -> new TelaAtendimento().setVisible(true));
+        // Ações dos Botões — cada tela abre deslocada da principal, nunca sobreposta
+        btnTutores.addActionListener(e -> abrirTela(new TelaTutor()));
+        btnPets.addActionListener(e -> abrirTela(new TelaPet()));
+        btnVets.addActionListener(e -> abrirTela(new TelaVeterinario()));
+        btnVacinas.addActionListener(e -> abrirTela(new TelaVacina()));
+        btnExames.addActionListener(e -> abrirTela(new TelaExame()));
+        btnProcedimentos.addActionListener(e -> abrirTela(new TelaProcedimento()));
+        btnAtendimentos.addActionListener(e -> abrirTela(new TelaAtendimento()));
+    }
+
+    private void abrirTela(JFrame tela) {
+        tela.setLocation(getX() + 40, getY() + 40);
+        tela.setVisible(true);
     }
 
     public static void main(String[] args) {

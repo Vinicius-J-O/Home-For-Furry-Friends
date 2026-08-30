@@ -104,7 +104,7 @@ public class TelaPet extends JFrame {
         add(painelCentral, BorderLayout.WEST);
 
         // Tabela
-        tableModel = new DefaultTableModel(new Object[]{"ID", "Tutor ID", "Nome", "Espécie", "Raça", "Sexo", "Peso"}, 0);
+        tableModel = new DefaultTableModel(new Object[]{"ID", "Tutor ID", "Nome", "Espécie", "Raça", "Sexo", "Data Nasc.", "Peso"}, 0);
         tabela = new JTable(tableModel);
         add(new JScrollPane(tabela), BorderLayout.CENTER);
 
@@ -133,7 +133,8 @@ public class TelaPet extends JFrame {
             txtEspecie.setText(tableModel.getValueAt(linha, 3).toString());
             txtRaca.setText(tableModel.getValueAt(linha, 4) != null ? tableModel.getValueAt(linha, 4).toString() : "");
             txtSexo.setText(tableModel.getValueAt(linha, 5) != null ? tableModel.getValueAt(linha, 5).toString() : "");
-            txtPeso.setText(tableModel.getValueAt(linha, 6).toString());
+            txtDataNasc.setText(tableModel.getValueAt(linha, 6) != null ? tableModel.getValueAt(linha, 6).toString() : "");
+            txtPeso.setText(tableModel.getValueAt(linha, 7).toString());
         }
     }
 
@@ -147,7 +148,7 @@ public class TelaPet extends JFrame {
     private void carregarTabela() {
         tableModel.setRowCount(0);
         for (Pet p : petDAO.listarTodos()) {
-            tableModel.addRow(new Object[]{p.getId(), p.getTutorId(), p.getNome(), p.getEspecie(), p.getRaca(), p.getSexo(), p.getPeso()});
+            tableModel.addRow(new Object[]{p.getId(), p.getTutorId(), p.getNome(), p.getEspecie(), p.getRaca(), p.getSexo(), p.getDataNascimento(), p.getPeso()});
         }
     }
 
