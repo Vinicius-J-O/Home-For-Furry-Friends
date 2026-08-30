@@ -82,6 +82,10 @@ public class TelaPet extends JFrame {
         btnSalvar.setBackground(Color.decode("#43A047"));
         btnSalvar.setForeground(Color.WHITE);
 
+        JButton btnEditar = new JButton("Atualizar");
+        btnEditar.setBackground(Color.decode("#5BB8C5"));
+        btnEditar.setForeground(Color.WHITE);
+
         JButton btnExcluir = new JButton("Excluir");
         btnExcluir.setBackground(Color.decode("#D9534F"));
         btnExcluir.setForeground(Color.WHITE);
@@ -89,6 +93,7 @@ public class TelaPet extends JFrame {
         JButton btnLimpar = new JButton("Limpar");
 
         painelBotoes.add(btnSalvar);
+        painelBotoes.add(btnEditar);
         painelBotoes.add(btnExcluir);
         painelBotoes.add(btnLimpar);
 
@@ -104,10 +109,32 @@ public class TelaPet extends JFrame {
         add(new JScrollPane(tabela), BorderLayout.CENTER);
 
         btnSalvar.addActionListener(e -> salvarPet());
+        btnEditar.addActionListener(e -> atualizarPet());
         btnExcluir.addActionListener(e -> excluirPet());
         btnLimpar.addActionListener(e -> limparCampos());
 
+        tabela.getSelectionModel().addListSelectionListener(e -> selecionarLinha());
+
         carregarTabela();
+    }
+
+    private void selecionarLinha() {
+        int linha = tabela.getSelectedRow();
+        if (linha != -1) {
+            txtId.setText(tableModel.getValueAt(linha, 0).toString());
+            int tutorId = (int) tableModel.getValueAt(linha, 1);
+            for (int i = 0; i < cbTutores.getItemCount(); i++) {
+                if (cbTutores.getItemAt(i).getId() == tutorId) {
+                    cbTutores.setSelectedIndex(i);
+                    break;
+                }
+            }
+            txtNome.setText(tableModel.getValueAt(linha, 2).toString());
+            txtEspecie.setText(tableModel.getValueAt(linha, 3).toString());
+            txtRaca.setText(tableModel.getValueAt(linha, 4) != null ? tableModel.getValueAt(linha, 4).toString() : "");
+            txtSexo.setText(tableModel.getValueAt(linha, 5) != null ? tableModel.getValueAt(linha, 5).toString() : "");
+            txtPeso.setText(tableModel.getValueAt(linha, 6).toString());
+        }
     }
 
     private void carregarTutoresCombo() {
@@ -147,6 +174,35 @@ public class TelaPet extends JFrame {
         }
     }
 
+    private void atualizarPet() {
+        if (txtId.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Selecione um Pet na tabela para atualizar!");
+            return;
+        }
+        Tutor tutorSelecionado = (Tutor) cbTutores.getSelectedItem();
+        if (tutorSelecionado == null || txtNome.getText().trim().isEmpty() || txtEspecie.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Preencha os campos obrigatórios (Tutor, Nome e Espécie)!");
+            return;
+        }
+
+        try {
+            double peso = txtPeso.getText().isEmpty() ? 0.0 : Double.parseDouble(txtPeso.getText());
+            Date dataNasc = txtDataNasc.getText().isEmpty() ? new Date(System.currentTimeMillis()) : Date.valueOf(txtDataNasc.getText());
+
+            Pet pet = new Pet(Integer.parseInt(txtId.getText()), tutorSelecionado.getId(), txtNome.getText(), txtEspecie.getText(), txtRaca.getText(), txtSexo.getText(), dataNasc, peso);
+
+            if (petDAO.atualizar(pet)) {
+                JOptionPane.showMessageDialog(this, "Pet atualizado com sucesso!");
+                limparCampos();
+                carregarTabela();
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro ao atualizar pet.");
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Erro nos dados inseridos: " + ex.getMessage());
+        }
+    }
+
     private void excluirPet() {
         if (txtId.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Selecione um Pet para excluir!");
@@ -168,5 +224,6 @@ public class TelaPet extends JFrame {
         txtSexo.setText("");
         txtDataNasc.setText("");
         txtPeso.setText("");
+        tabela.clearSelection();
     }
 }

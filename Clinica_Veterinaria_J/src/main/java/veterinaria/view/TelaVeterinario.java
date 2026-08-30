@@ -60,12 +60,20 @@ public class TelaVeterinario extends JFrame {
         btnSalvar.setBackground(Color.decode("#43A047"));
         btnSalvar.setForeground(Color.WHITE);
 
+        JButton btnEditar = new JButton("Atualizar");
+        btnEditar.setBackground(Color.decode("#5BB8C5"));
+        btnEditar.setForeground(Color.WHITE);
+
         JButton btnExcluir = new JButton("Excluir");
         btnExcluir.setBackground(Color.decode("#D9534F"));
         btnExcluir.setForeground(Color.WHITE);
 
+        JButton btnLimpar = new JButton("Limpar");
+
         painelBotoes.add(btnSalvar);
+        painelBotoes.add(btnEditar);
         painelBotoes.add(btnExcluir);
+        painelBotoes.add(btnLimpar);
 
         JPanel painelCentral = new JPanel(new BorderLayout());
         painelCentral.add(painelForm, BorderLayout.NORTH);
@@ -78,9 +86,24 @@ public class TelaVeterinario extends JFrame {
         add(new JScrollPane(tabela), BorderLayout.CENTER);
 
         btnSalvar.addActionListener(e -> salvarVet());
+        btnEditar.addActionListener(e -> atualizarVet());
         btnExcluir.addActionListener(e -> excluirVet());
+        btnLimpar.addActionListener(e -> limparCampos());
+
+        tabela.getSelectionModel().addListSelectionListener(e -> selecionarLinha());
 
         carregarTabela();
+    }
+
+    private void selecionarLinha() {
+        int linha = tabela.getSelectedRow();
+        if (linha != -1) {
+            txtId.setText(tableModel.getValueAt(linha, 0).toString());
+            txtNome.setText(tableModel.getValueAt(linha, 1).toString());
+            txtCrmv.setText(tableModel.getValueAt(linha, 2).toString());
+            txtTelefone.setText(tableModel.getValueAt(linha, 3) != null ? tableModel.getValueAt(linha, 3).toString() : "");
+            txtEspecialidade.setText(tableModel.getValueAt(linha, 4) != null ? tableModel.getValueAt(linha, 4).toString() : "");
+        }
     }
 
     private void carregarTabela() {
@@ -98,11 +121,27 @@ public class TelaVeterinario extends JFrame {
         Veterinario v = new Veterinario(txtNome.getText(), txtCrmv.getText(), txtTelefone.getText(), txtEspecialidade.getText());
         if (vetDAO.cadastrar(v)) {
             JOptionPane.showMessageDialog(this, "Veterinário cadastrado!");
-            txtNome.setText("");
-            txtCrmv.setText("");
-            txtTelefone.setText("");
-            txtEspecialidade.setText("");
+            limparCampos();
             carregarTabela();
+        }
+    }
+
+    private void atualizarVet() {
+        if (txtId.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Selecione um veterinário na tabela para atualizar!");
+            return;
+        }
+        if (txtNome.getText().trim().isEmpty() || txtCrmv.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nome e CRMV são obrigatórios!");
+            return;
+        }
+        Veterinario v = new Veterinario(Integer.parseInt(txtId.getText()), txtNome.getText(), txtCrmv.getText(), txtTelefone.getText(), txtEspecialidade.getText());
+        if (vetDAO.atualizar(v)) {
+            JOptionPane.showMessageDialog(this, "Veterinário atualizado com sucesso!");
+            limparCampos();
+            carregarTabela();
+        } else {
+            JOptionPane.showMessageDialog(this, "Erro ao atualizar veterinário.");
         }
     }
 
@@ -113,7 +152,17 @@ public class TelaVeterinario extends JFrame {
         }
         if (vetDAO.excluir(Integer.parseInt(txtId.getText()))) {
             JOptionPane.showMessageDialog(this, "Excluído com sucesso!");
+            limparCampos();
             carregarTabela();
         }
+    }
+
+    private void limparCampos() {
+        txtId.setText("");
+        txtNome.setText("");
+        txtCrmv.setText("");
+        txtTelefone.setText("");
+        txtEspecialidade.setText("");
+        tabela.clearSelection();
     }
 }

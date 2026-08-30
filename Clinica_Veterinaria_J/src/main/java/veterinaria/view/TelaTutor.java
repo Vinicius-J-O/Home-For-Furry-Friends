@@ -72,7 +72,7 @@ public class TelaTutor extends JFrame {
         btnEditar.setBackground(Color.decode("#5BB8C5"));
         btnEditar.setForeground(Color.WHITE);
 
-        JButton btnExcluir = new JButton("Exluir");
+        JButton btnExcluir = new JButton("Excluir");
         btnExcluir.setBackground(Color.decode("#D9534F"));
         btnExcluir.setForeground(Color.WHITE);
 
