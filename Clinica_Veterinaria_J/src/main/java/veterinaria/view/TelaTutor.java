@@ -46,7 +46,7 @@ public class TelaTutor extends JFrame {
         painelForm.add(txtNome);
 
         painelForm.add(new JLabel("Cpf*:"));
-        txtNome = new JTextField();
+        txtCpf = new JTextField();
         painelForm.add(txtCpf);
 
         painelForm.add(new JLabel("Telefone:"));

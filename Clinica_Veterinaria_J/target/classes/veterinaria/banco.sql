@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS pet (
     data_nascimento DATE,
     peso DECIMAL,
     FOREIGN KEY (tutor_id) REFERENCES tutor(id) ON DELETE CASCADE
-)
+);
 
 -- 3. Tabela VETERINARIO
 CREATE TABLE IF NOT EXISTS veterinario (
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS veterinario (
     crmv VARCHAR(20) UNIQUE NOT NULL,
     telefone VARCHAR(20),
     especialidade VARCHAR(100)
-)
+);
 
 -- 4. Tabela ATENDIMENTO
 CREATE TABLE IF NOT EXISTS atendimento (
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS procedimento (
     nome VARCHAR(100) NOT NULL,
     descricao TEXT,
     valor DECIMAL NOT NULL DEFAULT 0.0
-)
+);
 
 -- 6. Tabela EXAME
 CREATE TABLE IF NOT EXISTS exame (
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS exame (
     nome VARCHAR(100) NOT NULL,
     descricao TEXT,
     valor DECIMAL NOT NULL DEFAULT 0.0
-)
+);
 
 -- 7. Tabela VACINA
 CREATE TABLE IF NOT EXISTS vacina (
@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS vacina (
     data_aplicacao DATE NOT NULL,
     proxima_dose DATE,
     FOREIGN KEY (pet_id) REFERENCES pet(id) ON DELETE CASCADE
-)
+);
 
 -- 8. Tabela Relacional ATENDIMENTO_PROCEDIMENTO (N:N)
 CREATE TABLE IF NOT EXISTS atendimento_procedimento (
@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS atendimento_procedimento (
     PRIMARY KEY (atendimento_id, procedimento_id),
     FOREIGN KEY (atendimento_id) REFERENCES atendimento(id) ON DELETE CASCADE,
     FOREIGN KEY (procedimento_id) REFERENCES procedimento(id)
-)
+);
 
 -- 9. Tabela Relacional ATENDIMENTO_EXAME (N:N)
 CREATE TABLE IF NOT EXISTS atendimento_exame (
@@ -93,4 +93,4 @@ CREATE TABLE IF NOT EXISTS atendimento_exame (
     PRIMARY KEY (atendimento_id, exame_id),
     FOREIGN KEY (atendimento_id) REFERENCES atendimento(id) ON DELETE CASCADE,
     FOREIGN KEY (exame_id) REFERENCES exame(id)
-)
+);
