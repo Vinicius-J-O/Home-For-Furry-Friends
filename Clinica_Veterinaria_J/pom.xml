@@ -21,4 +21,18 @@
             <version>8.3.0</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Permite rodar com: mvn compile exec:java -Dexec.mainClass="veterinaria.Main" -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <mainClass>veterinaria.Main</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
