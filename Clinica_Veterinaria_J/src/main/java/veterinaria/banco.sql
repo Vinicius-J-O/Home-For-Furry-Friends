@@ -95,12 +95,12 @@ CREATE TABLE IF NOT EXISTS atendimento_exame (
     FOREIGN KEY (exame_id) REFERENCES exame(id)
 );
 
-SELECT * FROM tutor;
-SELECT * FROM pet;
-SELECT * FROM veterinario;
 SELECT * FROM atendimento;
-SELECT * FROM procedimento;
-SELECT * FROM exame;
-SELECT * FROM vacina;
-SELECT * FROM atendimento_procedimento;
 SELECT * FROM atendimento_exame;
+SELECT * FROM atendimento_procedimento;
+SELECT * FROM exame;
+SELECT * FROM pet;
+SELECT * FROM procedimento;
+SELECT * FROM tutor;
+SELECT * FROM vacina;
+SELECT * FROM veterinario;
