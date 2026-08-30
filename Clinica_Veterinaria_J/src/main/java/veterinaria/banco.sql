@@ -94,3 +94,13 @@ CREATE TABLE IF NOT EXISTS atendimento_exame (
     FOREIGN KEY (atendimento_id) REFERENCES atendimento(id) ON DELETE CASCADE,
     FOREIGN KEY (exame_id) REFERENCES exame(id)
 );
+
+SELECT * FROM tutor;
+SELECT * FROM pet;
+SELECT * FROM veterinario;
+SELECT * FROM atendimento;
+SELECT * FROM procedimento;
+SELECT * FROM exame;
+SELECT * FROM vacina;
+SELECT * FROM atendimento_procedimento;
+SELECT * FROM atendimento_exame;
