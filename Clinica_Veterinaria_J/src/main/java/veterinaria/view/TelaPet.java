@@ -11,9 +11,14 @@ import java.awt.*;
 import java.sql.Date;
 
 public class TelaPet extends JFrame {
-
     private JTextField txtId, txtNome, txtEspecie, txtRaca, txtSexo, txtDataNasc, txtPeso;
+
+    // JComboBox<Tutor> é uma lista suspensa (dropdown) fazendo cada item ser um
+    // objeto Tutor inteiro (não só o nome), por isso o Tutor.java precisa
+    // ter um método toString() bem feito, para aparecer o nome do tutor
+    // (e não algo tipo "veterinaria.model.Tutor@1a2b3c") nessa lista.
     private JComboBox<Tutor> cbTutores;
+
     private JTable tabela;
     private DefaultTableModel tableModel;
     private PetDAO petDAO;
@@ -29,7 +34,7 @@ public class TelaPet extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(10, 10));
 
-        // Cabeçalho
+        // Header
         JPanel painelHeader = new JPanel();
         painelHeader.setBackground(Color.decode("#2E7D6B"));
         JLabel lblTitulo = new JLabel("Home for Furry Friends - Cadastro de Pets");
@@ -49,7 +54,7 @@ public class TelaPet extends JFrame {
 
         painelForm.add(new JLabel("Tutor Responsible*:"));
         cbTutores = new JComboBox<>();
-        carregarTutoresCombo();
+        carregarTutoresCombo(); // Preenche o JComboBox com os tutores existentes no banco de dados
         painelForm.add(cbTutores);
 
         painelForm.add(new JLabel("Nome do Pet*:"));
@@ -76,7 +81,7 @@ public class TelaPet extends JFrame {
         txtPeso = new JTextField();
         painelForm.add(txtPeso);
 
-        // Botoes
+        // Botões
         JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         JButton btnSalvar = new JButton("Salvar");
         btnSalvar.setBackground(Color.decode("#43A047"));
@@ -118,17 +123,25 @@ public class TelaPet extends JFrame {
         carregarTabela();
     }
 
+    // Preenche o formulário com os dados do pet clicado na tabela.
     private void selecionarLinha() {
         int linha = tabela.getSelectedRow();
         if (linha != -1) {
             txtId.setText(tableModel.getValueAt(linha, 0).toString());
+
+            // Aqui é um pouco diferente das outras telas: como o "Tutor ID" na
+            // tabela é só um número, precisamos procurar dentro do combo de
+            // tutores (cbTutores) qual item tem esse mesmo id, e selecionar
+            // ele, fazendo assim o combo mostrar o tutor certo (com nome e tudo mais),
+            // não só o número do id.
             int tutorId = (int) tableModel.getValueAt(linha, 1);
             for (int i = 0; i < cbTutores.getItemCount(); i++) {
                 if (cbTutores.getItemAt(i).getId() == tutorId) {
                     cbTutores.setSelectedIndex(i);
-                    break;
+                    break; // Quando achar o tutor certo, ele para de procurar
                 }
             }
+
             txtNome.setText(tableModel.getValueAt(linha, 2).toString());
             txtEspecie.setText(tableModel.getValueAt(linha, 3).toString());
             txtRaca.setText(tableModel.getValueAt(linha, 4) != null ? tableModel.getValueAt(linha, 4).toString() : "");
@@ -138,13 +151,16 @@ public class TelaPet extends JFrame {
         }
     }
 
+    // Pega a lista de tutores no banco de dados (através do TutorDAO) e preenche o
+    // JComboBox usado no formulário, para o usuário escolher o tutor do pet.
     private void carregarTutoresCombo() {
-        cbTutores.removeAllItems();
+        cbTutores.removeAllItems(); // Limpa a lista atual do combo, para não duplicar
         for (Tutor t : tutorDAO.listarTodos()) {
-            cbTutores.addItem(t);
+            cbTutores.addItem(t); // Adiciona cada tutor como uma opção do combo
         }
     }
 
+    // Pega todos os pets no banco de dados e preenche a tabela.
     private void carregarTabela() {
         tableModel.setRowCount(0);
         for (Pet p : petDAO.listarTodos()) {
@@ -152,17 +168,28 @@ public class TelaPet extends JFrame {
         }
     }
 
+    // Cadastra um novo pet, usando os dados preenchidos no formulário.
     private void salvarPet() {
+        // Descobre qual tutor foi escolhido no combo. Ele pode vir "null" caso
+        // nenhum tutor estiver selecionado (ex: lista de tutores vazia).
         Tutor tutorSelecionado = (Tutor) cbTutores.getSelectedItem();
         if (tutorSelecionado == null || txtNome.getText().trim().isEmpty() || txtEspecie.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Preencha os campos obrigatórios (Tutor, Nome e Espécie)!");
             return;
         }
 
+        // O try/catch só tá aqui porque converter texto para número (Double.parseDouble)
+        // ou texto para data (Date.valueOf) pode dar algum erro se o usuário digitar
+        // algo no formato errado (ex: "abc" no campo peso).
         try {
+            // Se o campo peso estiver vazio ele usa 0.0; caso não esteja, ele converte o texto digitado em número.
             double peso = txtPeso.getText().isEmpty() ? 0.0 : Double.parseDouble(txtPeso.getText());
+            // Se a data de nascimento estiver vazia, usa a data de hoje; caso não esteja, converte o texto
+            // (AAAA-MM-DD) para um objeto Date.
             Date dataNasc = txtDataNasc.getText().isEmpty() ? new Date(System.currentTimeMillis()) : Date.valueOf(txtDataNasc.getText());
 
+            // Cria o objeto Pet com o id do tutor escolhido (ele não tem seu próprio id
+            // porque é um cadastro novo).
             Pet pet = new Pet(tutorSelecionado.getId(), txtNome.getText(), txtEspecie.getText(), txtRaca.getText(), txtSexo.getText(), dataNasc, peso);
 
             if (petDAO.cadastrar(pet)) {
@@ -171,10 +198,13 @@ public class TelaPet extends JFrame {
                 carregarTabela();
             }
         } catch (Exception ex) {
+            // Aqui pegamos qualquer erro que aconteça na conversão dos dados
+            // (não só de data/número) e mostramos uma mensagem pro usuário.
             JOptionPane.showMessageDialog(this, "Erro nos dados inseridos: " + ex.getMessage());
         }
     }
 
+    // Atualiza um pet já existente (precisa ter selecionado uma linha da tabela antes).
     private void atualizarPet() {
         if (txtId.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Selecione um Pet na tabela para atualizar!");
@@ -190,6 +220,7 @@ public class TelaPet extends JFrame {
             double peso = txtPeso.getText().isEmpty() ? 0.0 : Double.parseDouble(txtPeso.getText());
             Date dataNasc = txtDataNasc.getText().isEmpty() ? new Date(System.currentTimeMillis()) : Date.valueOf(txtDataNasc.getText());
 
+            // Dessa vez colocamos o id (lido de txtId), pro update saber qual pet que ele vai alterar.
             Pet pet = new Pet(Integer.parseInt(txtId.getText()), tutorSelecionado.getId(), txtNome.getText(), txtEspecie.getText(), txtRaca.getText(), txtSexo.getText(), dataNasc, peso);
 
             if (petDAO.atualizar(pet)) {
@@ -204,6 +235,7 @@ public class TelaPet extends JFrame {
         }
     }
 
+    // Exclui o pet selecionado na tabela.
     private void excluirPet() {
         if (txtId.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Selecione um Pet para excluir!");
@@ -217,6 +249,7 @@ public class TelaPet extends JFrame {
         }
     }
 
+    // Limpa o formulário e desmarca a linha selecionada na tabela.
     private void limparCampos() {
         txtId.setText("");
         txtNome.setText("");

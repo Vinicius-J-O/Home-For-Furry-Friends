@@ -23,6 +23,7 @@ public class TelaVeterinario extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(10, 10));
 
+        // Header
         JPanel painelHeader = new JPanel();
         painelHeader.setBackground(Color.decode("#2E7D6B"));
         JLabel lblTitulo = new JLabel("Home for Furry Friends - Cadastro de Veterinários");
@@ -31,6 +32,7 @@ public class TelaVeterinario extends JFrame {
         painelHeader.add(lblTitulo);
         add(painelHeader, BorderLayout.NORTH);
 
+        // Formulário
         JPanel painelForm = new JPanel(new GridLayout(5, 2, 5, 5));
         painelForm.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
@@ -55,6 +57,7 @@ public class TelaVeterinario extends JFrame {
         txtEspecialidade = new JTextField();
         painelForm.add(txtEspecialidade);
 
+        // Botões
         JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         JButton btnSalvar = new JButton("Salvar");
         btnSalvar.setBackground(Color.decode("#43A047"));
@@ -81,6 +84,7 @@ public class TelaVeterinario extends JFrame {
 
         add(painelCentral, BorderLayout.WEST);
 
+        // Tabela
         tableModel = new DefaultTableModel(new Object[]{"ID", "Nome", "CRMV", "Telefone", "Especialidade"}, 0);
         tabela = new JTable(tableModel);
         add(new JScrollPane(tabela), BorderLayout.CENTER);
@@ -95,6 +99,7 @@ public class TelaVeterinario extends JFrame {
         carregarTabela();
     }
 
+    // Preenche o formulário com os dados do veterinário clicado na tabela.
     private void selecionarLinha() {
         int linha = tabela.getSelectedRow();
         if (linha != -1) {
@@ -106,6 +111,7 @@ public class TelaVeterinario extends JFrame {
         }
     }
 
+    // Pega todos os veterinários no banco de dados e preenche a tabela.
     private void carregarTabela() {
         tableModel.setRowCount(0);
         for (Veterinario v : vetDAO.listarTodos()) {
@@ -113,6 +119,7 @@ public class TelaVeterinario extends JFrame {
         }
     }
 
+    // Cadastra um novo veterinário.
     private void salvarVet() {
         if (txtNome.getText().trim().isEmpty() || txtCrmv.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Nome e CRMV são obrigatórios!");
@@ -126,6 +133,7 @@ public class TelaVeterinario extends JFrame {
         }
     }
 
+    // Atualiza um veterinário já existente (precisa ter selecionado uma linha na tabela antes).
     private void atualizarVet() {
         if (txtId.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Selecione um veterinário na tabela para atualizar!");
@@ -145,6 +153,7 @@ public class TelaVeterinario extends JFrame {
         }
     }
 
+    // Exclui o veterinário selecionado na tabela.
     private void excluirVet() {
         if (txtId.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Selecione um veterinário para excluir!");
@@ -157,6 +166,7 @@ public class TelaVeterinario extends JFrame {
         }
     }
 
+    // Limpa o formulário e desmarca a linha selecionada.
     private void limparCampos() {
         txtId.setText("");
         txtNome.setText("");

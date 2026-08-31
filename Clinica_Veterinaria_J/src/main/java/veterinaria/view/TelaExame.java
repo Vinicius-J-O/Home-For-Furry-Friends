@@ -9,6 +9,8 @@ import java.awt.*;
 
 public class TelaExame extends JFrame {
     private JTextField txtId, txtNome, txtValor;
+    // JTextArea é tipo um JTextField, só que para textos maiores,
+    // com várias linhas, e aqui é usado para a descrição do exame.
     private JTextArea txtDescricao;
     private JTable tabela;
     private DefaultTableModel tableModel;
@@ -23,6 +25,7 @@ public class TelaExame extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(10, 10));
 
+        // Header
         JPanel painelHeader = new JPanel();
         painelHeader.setBackground(Color.decode("#2E7D6B"));
         JLabel lblTitulo = new JLabel("Cadastro de Exames");
@@ -31,6 +34,7 @@ public class TelaExame extends JFrame {
         painelHeader.add(lblTitulo);
         add(painelHeader, BorderLayout.NORTH);
 
+        // Formulário
         JPanel painelForm = new JPanel(new GridLayout(4, 2, 5, 5));
         painelForm.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
@@ -44,13 +48,14 @@ public class TelaExame extends JFrame {
         painelForm.add(txtNome);
 
         painelForm.add(new JLabel("Descrição:"));
-        txtDescricao = new JTextArea(2, 20);
-        painelForm.add(new JScrollPane(txtDescricao));
+        txtDescricao = new JTextArea(2, 20); // Caixa de texto com 2 linhas de altura
+        painelForm.add(new JScrollPane(txtDescricao)); // Rolagem, para caso o texto seja maior que a tela
 
         painelForm.add(new JLabel("Valor (R$)*:"));
-        txtValor = new JTextField("0.00");
+        txtValor = new JTextField("0.00"); // Já começa preenchido com 0.00 porém pode ser modificado pelo usuário
         painelForm.add(txtValor);
 
+        // Botões
         JButton btnSalvar = new JButton("Salvar");
         btnSalvar.setBackground(Color.decode("#43A047"));
         btnSalvar.setForeground(Color.WHITE);
@@ -69,6 +74,7 @@ public class TelaExame extends JFrame {
 
         add(painelEsquerda, BorderLayout.WEST);
 
+        // Tabela
         tableModel = new DefaultTableModel(new Object[]{"ID", "Nome", "Valor"}, 0);
         tabela = new JTable(tableModel);
         add(new JScrollPane(tabela), BorderLayout.CENTER);
@@ -79,6 +85,7 @@ public class TelaExame extends JFrame {
         carregarTabela();
     }
 
+    // Busca todos os exames no banco de dados e preenche a tabela.
     private void carregarTabela() {
         tableModel.setRowCount(0);
         for (Exame ex : exameDAO.listarTodos()) {
@@ -86,12 +93,17 @@ public class TelaExame extends JFrame {
         }
     }
 
+    // Cadastra um novo exame no catálogo.
     private void salvar() {
         if (txtNome.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Nome do exame é obrigatório!");
             return;
         }
         try {
+            // Converte o texto digitado em número. Se o usuário digitar algo
+            // que não seja um número válido (ex:"abc"), isso aciona uma
+            // NumberFormatException, que pede para o usuário excrever um
+            // valor numérico válido.
             double valor = Double.parseDouble(txtValor.getText());
             Exame ex = new Exame(txtNome.getText(), txtDescricao.getText(), valor);
             if (exameDAO.cadastrar(ex)) {
@@ -106,10 +118,12 @@ public class TelaExame extends JFrame {
         }
     }
 
+    // Exclui o exame selecionado diretamente na tabela (ele não usa um
+    // campo de ID separado, ele pega o id diretamente da linha clicada).
     private void excluir() {
         int linha = tabela.getSelectedRow();
         if (linha != -1) {
-            int id = (int) tableModel.getValueAt(linha, 0);
+            int id = (int) tableModel.getValueAt(linha, 0); // Pega o ID na coluna 0 da linha clicada
             if (exameDAO.excluir(id)) {
                 JOptionPane.showMessageDialog(this, "Exame excluído!");
                 carregarTabela();
