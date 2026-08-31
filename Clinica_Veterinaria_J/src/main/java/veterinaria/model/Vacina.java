@@ -9,8 +9,10 @@ public class Vacina {
     private Date dataAplicacao;
     private Date proximaDose;
 
+    // Construtor vazio.
     public Vacina() {}
 
+    // Construtor completo (com id), vacina que já existe no banco.
     public Vacina(int id, int petId, String nome, Date dataAplicacao, Date proximaDose) {
         this.id = id;
         this.petId = petId;
@@ -19,6 +21,7 @@ public class Vacina {
         this.proximaDose = proximaDose;
     }
 
+    // Construtor sem id, para registrar uma vacina nova.
     public Vacina(int petId, String nome, Date dataAplicacao, Date proximaDose) {
         this.petId = petId;
         this.nome = nome;
@@ -26,6 +29,7 @@ public class Vacina {
         this.proximaDose = proximaDose;
     }
 
+    // Getters e Setters.
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 

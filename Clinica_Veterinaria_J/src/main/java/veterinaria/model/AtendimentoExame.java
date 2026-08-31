@@ -15,6 +15,7 @@ public class AtendimentoExame {
         this.valor = valor;
     }
 
+    // Getters e Setters.
     public int getAtendimentoId() { return atendimentoId; }
     public void setAtendimentoId(int atendimentoId) { this.atendimentoId = atendimentoId; }
 

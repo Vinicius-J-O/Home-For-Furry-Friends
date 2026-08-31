@@ -7,8 +7,10 @@ public class Veterinario {
     private String telefone;
     private String especialidade;
 
+    // Construtor vazio.
     public Veterinario() {}
 
+    // Construtor completo (com id), pra veterinários que já existem no banco.
     public Veterinario(int id, String nome, String crmv, String telefone, String especialidade) {
         this.id = id;
         this.nome = nome;
@@ -17,6 +19,7 @@ public class Veterinario {
         this.especialidade = especialidade;
     }
 
+    // Construtor sem id, pra cadastrar um veterinário novo.
     public Veterinario(String nome, String crmv, String telefone, String especialidade) {
         this.nome = nome;
         this.crmv = crmv;
@@ -24,7 +27,7 @@ public class Veterinario {
         this.especialidade = especialidade;
     }
 
-    // Getters e Setters
+    // Getters e Setters.
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
@@ -40,6 +43,8 @@ public class Veterinario {
     public String getEspecialidade() { return especialidade; }
     public void setEspecialidade(String especialidade) { this.especialidade = especialidade; }
 
+    // Como o Veterinário aparece na lista suspensa (JComboBox) da tela de Atendimento,
+    // onde o usuário escolhe qual veterinário realizou a consulta.
     @Override
     public String toString() {
         return this.nome + " (CRMV: " + this.crmv + ")";

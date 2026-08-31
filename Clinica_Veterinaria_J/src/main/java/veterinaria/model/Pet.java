@@ -12,8 +12,10 @@ public class Pet {
     private Date dataNascimento;
     private double peso;
 
+    // Construtor vazio: cria um Pet "em branco" pra preencher depois com os setters.
     public Pet() {}
 
+    // Construtor completo (com id), usado quando o pet já existe no banco de dados.
     public Pet(int id, int tutorId, String nome, String especie, String raca, String sexo, Date dataNascimento, double peso) {
         this.id = id;
         this.tutorId = tutorId;
@@ -25,6 +27,8 @@ public class Pet {
         this.peso = peso;
     }
 
+    // Construtor sem id, usado quando estamos cadastrando um pet novo
+    // (o banco de dados é que vai gerar o id automaticamente).
     public Pet(int tutorId, String nome, String especie, String raca, String sexo, Date dataNascimento, double peso) {
         this.tutorId = tutorId;
         this.nome = nome;
@@ -35,7 +39,7 @@ public class Pet {
         this.peso = peso;
     }
 
-    // Getters e Setters
+    // Getters e Setters, eles leem e alteram cada campo individualmente.
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
@@ -60,6 +64,9 @@ public class Pet {
     public double getPeso() { return peso; }
     public void setPeso(double peso) { this.peso = peso; }
 
+    // Define como o Pet aparece quando é exibido como texto, por exemplo,
+    // na lista suspensa (JComboBox) da tela de Vacinas, onde o usuário escolhe
+    // para qual pet está registrando a vacina.
     @Override
     public String toString() {
         return this.nome + " (" + this.especie + ")";

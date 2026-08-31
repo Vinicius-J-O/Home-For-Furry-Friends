@@ -13,8 +13,10 @@ public class Atendimento {
     private String diagnostico;
     private double valor;
 
+    // Construtor vazio.
     public Atendimento() {}
 
+    // Construtor completo (com id), existe no banco de dados.
     public Atendimento(int id, int petId, int veterinarioId, Date dataAtendimento, Time horaAtendimento, String descricao, String diagnostico, double valor) {
         this.id = id;
         this.petId = petId;
@@ -26,6 +28,7 @@ public class Atendimento {
         this.valor = valor;
     }
 
+    // Construtor sem id, registra um atendimento novo.
     public Atendimento(int petId, int veterinarioId, Date dataAtendimento, Time horaAtendimento, String descricao, String diagnostico, double valor) {
         this.petId = petId;
         this.veterinarioId = veterinarioId;
@@ -36,7 +39,7 @@ public class Atendimento {
         this.valor = valor;
     }
 
-    // Getters e Setters
+    // Getters e Setters de cada campo.
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
