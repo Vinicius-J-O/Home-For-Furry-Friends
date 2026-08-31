@@ -5,7 +5,7 @@
 
 ---
 
-## 📋 Sumário
+## Sumário
 - [Visão Geral](#visao-geral)
 - [Problema vs. Solução](#problema-vs-solucao)
 - [Funcionalidades Principais](#funcionalidades-principais)
@@ -21,7 +21,7 @@
 ---
 
 <a id="visao-geral"></a>
-## 🌟 Visão Geral
+## Visão Geral
 
 A **Home for Furry Friends** é uma clínica veterinária destinada ao atendimento de cães, gatos e outros animais domésticos. O sistema **Veterinaria** foi concebido como uma aplicação desktop Java para modernizar a rotina operacional da clínica, substituindo o uso de fichas físicas por um banco de dados relacional seguro e organizado.
 
@@ -34,7 +34,7 @@ A **Home for Furry Friends** é uma clínica veterinária destinada ao atendimen
 ---
 
 <a id="problema-vs-solucao"></a>
-## 🛑 Problema vs. 💡 Solução
+## Problema vs. Solução
 
 | Cenário Anterior (Manual) | Solução com o Sistema Veterinaria |
 | :--- | :--- |
@@ -47,7 +47,7 @@ A **Home for Furry Friends** é uma clínica veterinária destinada ao atendimen
 ---
 
 <a id="funcionalidades-principais"></a>
-## ✨ Funcionalidades Principais
+## Funcionalidades Principais
 
 - **Gerenciamento de Tutores (CRUD):** Cadastro completo (criar, listar, atualizar, excluir).
 - **Gerenciamento de Pets (CRUD):** Registro de animais vinculados diretamente a um tutor responsável (criar, listar, atualizar, excluir).
@@ -62,7 +62,7 @@ A **Home for Furry Friends** é uma clínica veterinária destinada ao atendimen
 ---
 
 <a id="tecnologias-utilizadas"></a>
-## 🛠️ Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 | Tecnologia | Finalidade |
 | :--- | :--- |
@@ -75,7 +75,7 @@ A **Home for Furry Friends** é uma clínica veterinária destinada ao atendimen
 ---
 
 <a id="arquitetura-do-sistema"></a>
-## 🏗️ Arquitetura do Sistema
+## Arquitetura do Sistema
 
 O sistema adota uma arquitetura em camadas simples, promovendo a separação entre a interface com o usuário, as regras de domínio e a camada de persistência:
 
@@ -100,7 +100,7 @@ O sistema adota uma arquitetura em camadas simples, promovendo a separação ent
 ---
 
 <a id="modelo-de-dados-entidades"></a>
-## 📊 Modelo de Dados & Entidades
+## Modelo de Dados & Entidades
 
 ### Entidades do Domínio
 
@@ -126,7 +126,7 @@ O sistema adota uma arquitetura em camadas simples, promovendo a separação ent
 ---
 
 <a id="regras-de-negocio-validacoes"></a>
-## 📐 Regras de Negócio & Validações
+## Regras de Negócio & Validações
 
 ### Regras de Negócio (RN)
 - **RN01:** Cada tutor possui ID único; o CPF é utilizado para identificação.
@@ -151,7 +151,7 @@ O sistema adota uma arquitetura em camadas simples, promovendo a separação ent
 ---
 
 <a id="fluxo-principal-de-atendimento"></a>
-## 🔄 Fluxo Principal de Atendimento
+## Fluxo Principal de Atendimento
 
 ```
 [01] Cadastro do Tutor → [02] Cadastro do Pet → [03] Vínculo Pet → Tutor                                                                    
@@ -173,7 +173,7 @@ O sistema adota uma arquitetura em camadas simples, promovendo a separação ent
 ---
 
 <a id="guia-de-identidade-visual-ui"></a>
-## 🎨 Guia de Identidade Visual (UI)
+## Guia de Identidade Visual (UI)
 
 Para a construção das telas Java Swing, adota-se a seguinte paleta de cores:
 
@@ -194,7 +194,7 @@ Para a construção das telas Java Swing, adota-se a seguinte paleta de cores:
 ---
 
 <a id="escopo-e-limitacoes"></a>
-## 🚫 Escopo e Limitações
+## Escopo e Limitações
 
 ### Escopo Inicial
 - CRUDs completos para Tutores, Pets e Veterinários.
@@ -215,7 +215,7 @@ Para a construção das telas Java Swing, adota-se a seguinte paleta de cores:
 ---
 
 <a id="como-executar-o-projeto"></a>
-## ▶️ Como Executar o Projeto
+## Como Executar o Projeto
 
 ### Pré-requisitos
 - JDK 21 instalado.
@@ -235,6 +235,6 @@ Para a construção das telas Java Swing, adota-se a seguinte paleta de cores:
 
 ---
 
-## 📄 Licença e Considerações Finais
+## Licença e Considerações Finais
 
 Documentação referente à **Etapa 1** do projeto prático de desenvolvimento do sistema desktop **Home for Furry Friends**. Servirá como guia técnico para implementação do código-fonte e apresentação acadêmica.
