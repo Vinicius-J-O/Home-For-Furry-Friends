@@ -9,6 +9,7 @@ import java.util.List;
 
 public class VacinaDAO {
 
+    // CREATE — registra uma nova vacina aplicada em um pet.
     public boolean cadastrar(Vacina vacina) {
         String sql = "INSERT INTO vacina (pet_id, nome, data_aplicacao, proxima_dose) VALUES (?, ?, ?, ?)";
         try (Connection conn = Conexao.getConexao();
@@ -25,12 +26,14 @@ public class VacinaDAO {
         }
     }
 
+    // READ — lista todas as vacinas de um pet específico (identificado pelo petId),
+    // da mais recente para a mais antiga.
     public List<Vacina> listarPorPet(int petId) {
         List<Vacina> vacinas = new ArrayList<>();
         String sql = "SELECT * FROM vacina WHERE pet_id = ? ORDER BY data_aplicacao DESC";
         try (Connection conn = Conexao.getConexao();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, petId);
+            stmt.setInt(1, petId); // filtra só as vacinas deste pet
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 Vacina v = new Vacina(

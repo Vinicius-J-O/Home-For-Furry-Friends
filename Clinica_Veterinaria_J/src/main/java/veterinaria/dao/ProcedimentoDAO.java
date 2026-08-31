@@ -9,6 +9,7 @@ import java.util.List;
 
 public class ProcedimentoDAO {
 
+    // CREATE — cadastra um novo procedimento no catálogo.
     public boolean cadastrar(Procedimento proc) {
         String sql = "INSERT INTO procedimento (nome, descricao, valor) VALUES (?, ?, ?)";
         try (Connection conn = Conexao.getConexao();
@@ -24,6 +25,7 @@ public class ProcedimentoDAO {
         }
     }
 
+    // READ — lista todos os procedimentos cadastrados, em ordem alfabética pelo nome.
     public List<Procedimento> listarTodos() {
         List<Procedimento> procs = new ArrayList<>();
         String sql = "SELECT * FROM procedimento ORDER BY nome";

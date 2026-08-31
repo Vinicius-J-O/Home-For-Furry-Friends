@@ -9,6 +9,7 @@ import java.util.List;
 
 public class VeterinarioDAO {
 
+    // CREATE — cadastra um novo veterinário no banco.
     public boolean cadastrar(Veterinario vet) {
         String sql = "INSERT INTO veterinario (nome, crmv, telefone, especialidade) VALUES (?, ?, ?, ?)";
         try (Connection conn = Conexao.getConexao();
@@ -25,6 +26,7 @@ public class VeterinarioDAO {
         }
     }
 
+    // READ — busca todos os veterinários cadastrados.
     public List<Veterinario> listarTodos() {
         List<Veterinario> vets = new ArrayList<>();
         String sql = "SELECT * FROM veterinario ORDER BY id DESC";
@@ -47,6 +49,7 @@ public class VeterinarioDAO {
         return vets;
     }
 
+    // UPDATE — atualiza os dados de um veterinário já existente.
     public boolean atualizar(Veterinario vet) {
         String sql = "UPDATE veterinario SET nome = ?, crmv = ?, telefone = ?, especialidade = ? WHERE id = ?";
         try (Connection conn = Conexao.getConexao();
@@ -64,6 +67,7 @@ public class VeterinarioDAO {
         }
     }
 
+    // DELETE — remove um veterinário do banco, usando o seu id.
     public boolean excluir(int id) {
         String sql = "DELETE FROM veterinario WHERE id = ?";
         try (Connection conn = Conexao.getConexao();

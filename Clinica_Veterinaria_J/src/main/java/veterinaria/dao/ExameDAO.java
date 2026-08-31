@@ -9,6 +9,7 @@ import java.util.List;
 
 public class ExameDAO {
 
+    // CREATE — cadastra um novo exame no catálogo.
     public boolean cadastrar(Exame exame) {
         String sql = "INSERT INTO exame (nome, descricao, valor) VALUES (?, ?, ?)";
         try (Connection conn = Conexao.getConexao();
@@ -24,6 +25,7 @@ public class ExameDAO {
         }
     }
 
+    // READ — lista todos os exames cadastrados, em ordem alfabética pelo nome.
     public List<Exame> listarTodos() {
         List<Exame> exames = new ArrayList<>();
         String sql = "SELECT * FROM exame ORDER BY nome";
@@ -45,6 +47,7 @@ public class ExameDAO {
         return exames;
     }
 
+    // DELETE — remove um exame do catálogo usando o seu id.
     public boolean excluir(int id) {
         String sql = "DELETE FROM exame WHERE id = ?";
         try (Connection conn = Conexao.getConexao();

@@ -9,6 +9,7 @@ import java.util.List;
 
 public class AtendimentoDAO {
 
+    // CREATE - registra um novo atendimento no banco de dados.
     public boolean registrar(Atendimento atendimento) {
         String sql = "INSERT INTO atendimento (pet_id, veterinario_id, data_atendimento, hora_atendimento, descricao, diagnostico, valor) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = Conexao.getConexao();
@@ -28,6 +29,7 @@ public class AtendimentoDAO {
         }
     }
 
+    // READ — pega todos os atendimentos já registrados, do mais recente para o mais antigo.
     public List<Atendimento> listarTodos() {
         List<Atendimento> atendimentos = new ArrayList<>();
         String sql = "SELECT * FROM atendimento ORDER BY id DESC";
