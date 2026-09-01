@@ -73,31 +73,7 @@ CREATE TABLE IF NOT EXISTS vacina (
     FOREIGN KEY (pet_id) REFERENCES pet(id) ON DELETE CASCADE
 );
 
--- 8. Tabela Relacional ATENDIMENTO_PROCEDIMENTO (N:N)
-CREATE TABLE IF NOT EXISTS atendimento_procedimento (
-    atendimento_id INT NOT NULL,
-    procedimento_id INT NOT NULL,
-    quantidade INT NOT NULL DEFAULT 1,
-    valor DOUBLE NOT NULL,
-    PRIMARY KEY (atendimento_id, procedimento_id),
-    FOREIGN KEY (atendimento_id) REFERENCES atendimento(id) ON DELETE CASCADE,
-    FOREIGN KEY (procedimento_id) REFERENCES procedimento(id)
-);
-
--- 9. Tabela Relacional ATENDIMENTO_EXAME (N:N)
-CREATE TABLE IF NOT EXISTS atendimento_exame (
-    atendimento_id INT NOT NULL,
-    exame_id INT NOT NULL,
-    resultado TEXT,
-    valor DOUBLE NOT NULL,
-    PRIMARY KEY (atendimento_id, exame_id),
-    FOREIGN KEY (atendimento_id) REFERENCES atendimento(id) ON DELETE CASCADE,
-    FOREIGN KEY (exame_id) REFERENCES exame(id)
-);
-
 SELECT * FROM atendimento;
-SELECT * FROM atendimento_exame;
-SELECT * FROM atendimento_procedimento;
 SELECT * FROM exame;
 SELECT * FROM pet;
 SELECT * FROM procedimento;
