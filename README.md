@@ -111,8 +111,6 @@ O sistema adota uma arquitetura em camadas simples, promovendo a separação ent
 5. **PROCEDIMENTO:** `id` (PK), `nome`, `descricao`, `valor`
 6. **EXAME:** `id` (PK), `nome`, `descricao`, `valor`
 7. **VACINA:** `id` (PK), `pet_id` (FK), `nome`, `data_aplicacao`, `proxima_dose`
-8. **ATENDIMENTO_PROCEDIMENTO:** `atendimento_id` (PK/FK), `procedimento_id` (PK/FK), `quantidade`, `valor`
-9. **ATENDIMENTO_EXAME:** `atendimento_id` (PK/FK), `exame_id` (PK/FK), `resultado`, `valor`
 
 ### Relacionamentos e Multiplicidades
 
@@ -120,8 +118,6 @@ O sistema adota uma arquitetura em camadas simples, promovendo a separação ent
 - **Pet → Atendimento:** $1 : 0..*$ *(Um pet pode passar por múltiplos atendimentos)*
 - **Veterinário → Atendimento:** $1 : 0..*$ *(Um veterinário pode realizar múltiplos atendimentos)*
 - **Pet → Vacina:** $1 : 0..*$ *(Um pet pode ter vários registros de vacina)*
-- **Atendimento ← Procedimento:** $N : N$ *(tabela associativa `ATENDIMENTO_PROCEDIMENTO` já existe no banco, mas ainda não é populada pela aplicação)*
-- **Atendimento ← Exame:** $N : N$ *(tabela associativa `ATENDIMENTO_EXAME` já existe no banco, mas ainda não é populada pela aplicação)*
 
 ---
 
