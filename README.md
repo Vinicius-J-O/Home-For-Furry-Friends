@@ -119,6 +119,9 @@ O sistema adota uma arquitetura em camadas simples, promovendo a separação ent
 - **Veterinário → Atendimento:** $1 : 0..*$ *(Um veterinário pode realizar múltiplos atendimentos)*
 - **Pet → Vacina:** $1 : 0..*$ *(Um pet pode ter vários registros de vacina)*
 
+### Diagrama de Classes
+
+![Diagrama de Classes] Clinica_Veterinaria_J/imagens/mermaid-diagram-2026-09-02-182657.png
 ---
 
 <a id="regras-de-negocio-validacoes"></a>
