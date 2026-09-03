@@ -121,7 +121,7 @@ O sistema adota uma arquitetura em camadas simples, promovendo a separação ent
 
 ### Diagrama de Classes
 
-![Diagrama de Classes] Clinica_Veterinaria_J/imagens/mermaid-diagram-2026-09-02-182657.png
+![Diagrama de Classes] (Clinica_Veterinaria_J/imagens/mermaid-diagram-2026-09-02-182657.png)
 ---
 
 <a id="regras-de-negocio-validacoes"></a>
