@@ -121,7 +121,7 @@ O sistema adota uma arquitetura em camadas simples, promovendo a separação ent
 
 ### Diagrama de Classes
 
-![Diagrama de Classes](./imagens/diagrama-classes.png)
+![Diagrama de Classes](imagens/diagrama.png)
 
 <a id="regras-de-negocio-validacoes"></a>
 ## Regras de Negócio & Validações
